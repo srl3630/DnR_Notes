@@ -33,11 +33,13 @@
 - DNS
 	- (53)
 	- Requests to DNS are usually UDP, unless the server gives a redirect notice asking for a TCP connection. Look up in cache happens first. DNS exfiltration. Using raw IP addresses means no DNS logs, but there are HTTP logs. DNS sinkholes.
-	- In a reverse DNS lookup, PTR might contain- 2.152.80.208.in-addr.arpa, which will map to  208.80.152.2. DNS lookups start at the end of the string and work backwards, which is why the IP address is backwards in PTR.
+      - TCP can also be ued when a DNS zone transfer to occur, which is when a secondary DNS server requests to replicate database from another DNS server
+    - PTR reverses DNS lookups, going from IP -> Domain
 - DNS exfiltration 
 	- Sending data as subdomains. 
-	- 26856485f6476a567567c6576e678.badguy.com
-	- Doesn’t show up in http logs. 
+      - EX:26856485f6476a567567c6576e678.badguy.com
+      - Can also be used to execute commands, by storing data in a txt record
+	- Doesn’t show up in http logs, as no http request is made. 
 - DNS configs
 	- Start of Authority (SOA).
 	- IP addresses (A and AAAA).
@@ -51,6 +53,7 @@
 	- UDP (67 - Server, 68 - Client)
 	- Dynamic address allocation (allocated by router).
 	- `DHCPDISCOVER` -> `DHCPOFFER` -> `DHCPREQUEST` -> `DHCPACK`
+    - Assigns internal IP addresses to hosts
 - Multiplex 
 	- Timeshare, statistical share, just useful to know it exists.
 - Traceroute 
@@ -64,9 +67,11 @@
 	- Hide traffic from ISP but expose traffic to VPN provider.
 - Tor 
 	- Traffic is obvious on a network. 
-	- How do organised crime investigators find people on tor networks. 
+	- How do organised crime investigators find people on tor networks.
+      - Often times, the government will own a number of nodes on tor, if someone owns the entry and exit nodes, they can identify traffic that flows through it
 - Proxy  
-	- Why 7 proxies won’t help you. 
+	- Why 7 proxies won’t help you.
+      - Proxy doesn't hide/encrypt the data/what websites you're going to, just masks the original source
 - BGP
 	- Border Gateway Protocol.
 	- Holds the internet together.
@@ -76,10 +81,19 @@
 	- Burp suite
 - HTTP/S 
 	- (80, 443)
+      - 80 is http, which is unencrypted
+      - 443 is https and uses SSL/TLS
 - SSL/TLS
 	- (443) 
 	- Super important to learn this, includes learning about handshakes, encryption, signing, certificate authorities, trust systems. A good [primer](https://english.ncsc.nl/publications/publications/2021/january/19/it-security-guidelines-for-transport-layer-security-2.1) on all these concepts and algorithms is made available by the Dutch cybersecurity center.
-	- POODLE, BEAST, CRIME, BREACH, HEARTBLEED.
+      - encryption
+        - Public private key encryption
+          - usually some combination of the private key of a website with a random string which is used to encode messages
+    - Signing means a CA has authenticated the 
+    - TLS handshake
+      - syn, syn-ack, ack
+      - client hello, server hello/certificate/serverhellodone, clientkeyexchange/changecipherspecfinished, changechipherspecfinished
+    - POODLE, BEAST, CRIME, BREACH, HEARTBLEED.
 - TCP/UDP
 	- Web traffic, chat, voip, traceroute.
 	- TCP will throttle back if packets are lost but UDP doesn't. 
