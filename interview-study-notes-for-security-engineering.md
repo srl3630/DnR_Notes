@@ -89,17 +89,25 @@
       - encryption
         - Public private key encryption
           - usually some combination of the private key of a website with a random string which is used to encode messages
-    - Signing means a CA has authenticated the 
+    - Signing means a CA has authenticated the identity of the person using a certificate
+      - ensures AIN
+        - Authenticity
+        - Integrity
+        - Non-repudiation
+      - Source: https://support.microsoft.com/en-us/office/digital-signatures-and-certificates-8186cd15-e7ac-4a16-8597-22bd163e8e96
     - TLS handshake
       - syn, syn-ack, ack
       - client hello, server hello/certificate/serverhellodone, clientkeyexchange/changecipherspecfinished, changechipherspecfinished
     - POODLE, BEAST, CRIME, BREACH, HEARTBLEED.
 - TCP/UDP
 	- Web traffic, chat, voip, traceroute.
-	- TCP will throttle back if packets are lost but UDP doesn't. 
-	- Streaming can slow network TCP connections sharing the same network.
-- ICMP 
+	- TCP there is a confirmation a packet was received, this does not exist with UDP
+      - The only things ensured in life are Death, Taxes, and TCP 
+    - layer 4
+- ICMP
 	- Ping and traceroute.
+    - Connectionless protocol
+    - layer 3
 - Mail
 	- SMTP (25, 587, 465)
 	- IMAP (143, 993)
@@ -125,6 +133,8 @@
 - RPC 
 	- Predefined set of tasks that remote clients can execute.
 	- Used inside orgs. 
+    - understand use vs APIs
+      - RPCs we can call functions on other machines
 - Service ports
 	- 0 - 1023: Reserved for common services - sudo required. 
 	- 1024 - 49151: Registered ports used for IANA-registered services. 
@@ -171,56 +181,94 @@
 - HSTS 
 	- Policies, eg what websites use HTTPS.
 - Cert transparency 
-	- Can verify certificates against public logs 	
-- HTTP Public Key Pinning
-	- (HPKP)
-	- Deprecated by Google Chrome
+	- Can verify certificates against public logs
 - Cookies 
 	- httponly - cannot be accessed by javascript.
 - CSRF
 	- Cross-Site Request Forgery.
+      -	make user click link with potentially unwanted actions
+      - Can mitigate wit CSRF tokens
+        - need to include token to make valid request
+      - ref based validation also works
+        - verify the request originated from own domain
 	- Cookies.
 - XSS
 	- Reflected XSS.
-	- Persistent XSS.
+      - User tricked into executing specially crafted request, can be from an error or response from a form, executes as it's coming from a trusted server
+      - Has access to users info in code
+    - Persistent XSS.
+      - When a script is stored on a server in some form, such as a forum post or comment
 	- DOM based /client-side XSS.
+      - can load 
 	- `<img scr=””>` will often load content from other websites, making a cross-origin HTTP request. 
 - SQLi 
 	- Person-in-the-browser (flash / java applets) (malware).
 	- Validation / sanitisation of webforms.
+    - Mitigations
+      - prepared statements
+        - makes query only interpret as literals
+      - Stored procedures
+        - sql code for a stored procedure is stored on the db
 - POST 
-	- Form data. 
+	- Form data, no arguments in url
 - GET 
 	- Queries. 
 	- Visible from URL.
 - Directory traversal 
 	- Find directories on the server you’re not meant to be able to see.
 	- There are tools that do this.
+    - Can bypass bypreventions 
+      - with absolute paths
+      - by url encoding the traversal
+      - use required path, and then do directory traversal
+      - can use null byte to bypass file type requirements
+      - Source: https://portswigger.net/web-security/file-path-traversal
+    - Can completely eliminate this by avoiding allowing user supplied filesystem calls
 - APIs 
 	- Think about what information they return. 
 	- And what can be sent.
 - Beefhook
-	- Get info about Chrome extensions.
+	- Means to get user to navigate to a page with an inserted script by BEEF (browser exploitation framework)
 - User agents
 	- Is this a legitimate browser? Or a botnet?
+    - Keep in mind, user agents are totally defined by the user of the device and can be changed at will
+      - A weird UA may be suspicious, but a normal user agent doesn't mean a request isn't suspicious
 - Browser extension take-overs
 	- Miners, cred stealers, adware.
 - Local file inclusion
+  - Loading a file that wasn't intended to be loaded
+    - typically combined with some sort of file upload
 - Remote file inclusion (not as common these days)
+  - Same as above, but doesn't require upload, can load files from other places, such as a file server
 - SSRF 
 	- Server Side Request Forgery.
+    - Attack which causes the backend of the server to make requests not intended
+      - often used to obtain cloud credentials (169.254.169.254)
+        - especially important in kubernetes, as often times the network is considered trusted, so unauthenticated requests can be made to microservices
 - Web vuln scanners. 
+  - Rapid7, Qualsys
+  - Shotgun exploits against web servers
 - SQLmap.
+  - automatically performs SQL injection attacks
 - Malicious redirects.
+  - Can be code injected into a website to cause users to be redirected to another malicious site
 
 
 # Infrastructure (Prod / Cloud) Virtualisation 
 
 - Hypervisors.
+  - Software/hardware on which virtual machines are run
 - Hyperjacking.
+  - taking over the hypervisors, a vm escape, makes it harder to detect malicious code being run
 - Containers, VMs, clusters.
+  - a container is a packaging of a given software and it's runtime environment
+    - build on top of the hosts kernel
+  - a virtual machine is a whole virtualized operating system
 - Escaping techniques.
 	- Network connections from VMs / containers.  
+    - containers in kube are often extremely over priveleged by default
+      - check if a docker socket is mounted
+      - check if the container is running as root
 - Lateral movement and privilege escalation techniques.
 	- Cloud Service Accounts can be used for lateral movement and privilege escalation in Cloud environments.
 	- GCPloit tool for Google Cloud Projects.
