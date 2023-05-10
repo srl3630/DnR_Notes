@@ -4,6 +4,8 @@ These notes were originally taken from [here](https://github.com/gracenolan/Note
 
 The goal of this repo is to further my own knowledge and to expand upon some of the points I felt could use more color
 
+This repo focuses mostly on the content, but if you're looking for interview advice, the original author has a great breakdown
+
 ### Contents
 - [Networking](interview-study-notes-for-security-engineering.md#networking)
 - [Web Application](interview-study-notes-for-security-engineering.md#web-application)
