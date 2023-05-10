@@ -1,5 +1,9 @@
 # Security Engineering at Google: My Interview Study Notes
 
+These notes were originally taken from [here](https://github.com/gracenolan/Notes)
+
+The goal of this repo is to further my own knowledge and to expand upon some of the points I felt could use more color
+
 ### Contents
 - [Networking](interview-study-notes-for-security-engineering.md#networking)
 - [Web Application](interview-study-notes-for-security-engineering.md#web-application)
