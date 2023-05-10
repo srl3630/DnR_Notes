@@ -271,13 +271,25 @@
       - check if the container is running as root
 - Lateral movement and privilege escalation techniques.
 	- Cloud Service Accounts can be used for lateral movement and privilege escalation in Cloud environments.
+      - most service accounts have the editor role
+      - need to allow access to setmetadata
+      - set new public key for ssh access
+      - you can just use gcloud compute ssh [instance name]
+      - look for credentials on the box
 	- GCPloit tool for Google Cloud Projects.
 - Site isolation.
+  - Sandboxes different websites, making it more difficult for cross pollination of data
 - Side-channel attacks.
 	- Spectre, Meltdown.
-- Beyondcorp 
+    - 
+- Beyondcorp ( ZeroTrust )
 	- Trusting the host but not the network.
+    - No trusted networks just trusted devices and accounts
+    - ABAC based framework, which evaluates a number of factors to determine level of access
+      - Account role, device status, patching status, 
 - Log4j vuln. 
+  - A vulnerability exploiting the JNDI (Java Naming and Directory Interface) in arbitrary fields to get a server running java to execute arbitrary code
+    - The code would be run, as the server would read the log files and perform the JNDI request and execute the provided file from the URL
 
 
 # OS Implementation and Systems
