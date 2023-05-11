@@ -295,9 +295,30 @@
 # OS Implementation and Systems
 
 - Privilege escalation techniques, and prevention.
+  - edit a task run by a more priveleged user
+  - some files/services will be run as a different user, edit those files
+  - dump lsass
+  - some type of exploit
+  - passwords lying around
+    - web browser
+    - creds for an app
+    - rc files on linux
+  - pass the has attack, needs NTLM to be enabled
+  - plug a razer mouse into your computer (make pc install insecure services as system)
+  - DLL Hijacking
+  - Unquoted service paths
 - Buffer Overflows.
+  - When a program writes extra data to disk, and that other data gets executed by another program
 - Directory traversal (prevention).
+  - don't allow users to directly access files
+  - filter out `../` (naive)
+  - whitelist certain inputs for the user
 - Remote Code Execution / getting shells.
+  - a way to remotely execute code on a remote application
+    - log4j vuln
+    - any operation that accepts user input without cleaning and runs that code
+      - ex: subprocess.run(['ls', user_input])
+    - Can chain local file inclusion and upload to achieve rce
 - Local databases
 	- Some messaging apps use sqlite for storing messages.
 	- Useful for digital forensics, especially on phones.
@@ -315,14 +336,28 @@
 	- SELinux.
 	- Kernel, userspace, permissions.
 	- MAC vs DAC.
+      - DAC
+        - discretionary access control
+          - owner decides what is done with file
+      - MAC
+        - mandatory access control
+          - policy is centrally controlled by an administrator
+          - much more strict and requires more intentionality
 	- /proc
+      - filesystem created on the fly to keep track of the state of the machine
 	- /tmp - code can be saved here and executed.
 	- /shadow 
+      - stores hashed passwords
+    - /passwd
+      - stores user info
 	- LDAP - Lightweight Directory Browsing Protocol. Lets users have one password for many services. This is similar to Active Directory in windows.
 - MacOS
 	- Gotofail error (SSL).
+      - can trick users into visiting a fake site and it seems trusted
 	- MacSweeper.
+      - basically primitive PUP/PUA
 	- Research Mac vulnerabilities.
+      - 
 
 ## Mitigations 
 - Patching 
