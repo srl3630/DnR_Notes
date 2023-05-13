@@ -386,6 +386,19 @@
 
 - Encryption vs Encoding vs Hashing vs Obfuscation vs Signing
 	- Be able to explain the differences between these things. 
+    - Encryption
+      - When data is modified such that only someone with a given key is able to read them
+    - Encoding
+      - The process of converting data into a seperate format
+      - can read as long as you know the format, no secret required
+    - Hashing
+      - the process of converting data into a (mostly) unique string for identificaiton
+      - hashing is typically one way
+    - Obfuscation
+      - modifying data such that the original meaning is not easily recognizable
+      - this can be done to evade defender tooling or make data unreadable
+    - Signing
+      - The process of verifying something by backing authenticity, and ensuring the code hasn't been changed by anyone other than the author
 	- [Various attack models](https://en.wikipedia.org/wiki/Attack_model) (e.g. chosen-plaintext attack).
 
 - Encryption standards + implementations
@@ -417,6 +430,9 @@
 - Authentication
 	- Certificates 
 		- What info do certs contain, how are they signed? 
+          - Public and private key
+          - contains certificate info ( info about the cert owner)
+          - digital signature by CA
 		- Look at DigiNotar.
 	- Trusted Platform Module 
 		- (TPM)
@@ -432,8 +448,12 @@
 		- OpenID.
 		- Kerberos. 
 			- Gold & silver tickets.
+              - Silver is local service tickets
+              - Gold gives access to domain
 			- Mimikatz.
+              - dumps password hashes from lsass
 			- Pass-the-hash.	  
+              - Using NTLM (legacy protocol) we can use the hash instead of the cracked password
 	- Biometrics
 		- Can't rotate unlike passwords.
 	- Password management
@@ -449,7 +469,7 @@
 		- Control which authenicated users can access which resources.
 	- Service accounts vs User accounts
 		- Robot accounts or Service accounts are used for automation.
-		- Service accounts should have heavily restricted priviledges.
+		- Service accounts should have heavily restricted privileges.
 		- Understanding how Service accounts are used by attackers is important for understanding Cloud security.  
 	- impersonation
 		- Exported account keys.
