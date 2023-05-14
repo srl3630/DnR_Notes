@@ -474,26 +474,64 @@
 	- impersonation
 		- Exported account keys.
 		- ActAs, JWT (JSON Web Token) in Cloud.
+          - Allows user to assume a role and access resources it has access to
 	- Federated identity
+      - Links identity between services
+        - For example, Azure AD and on prem can be synced
+        - another example is sso
 
 
 # Malware & Reversing
 
 - Interesting malware
 	- Conficker.
+      - Worm
+      - Uses a number of tactics to spread
+        - Windows Exploits
+        - Autorun usbs
+        - Default passwords (RDP)
 	- Morris worm.
+      - experimental
+      - one of the first worms
+      - Methods of compromise
+        - weak passwords
+        - windows exploits
+        - trusted systems with no login
 	- Zeus malware.
+      - trojan
+      - steals cred, banking info, etc.
+        - has been used to spread other payloads, such as ransomware
 	- Stuxnet.
+      - worm
+      - starts off spread by usb, then moves over to exploits
+      - Mimics sandbox detection functionality
+        - typically used to search systems for common files to avoid detonating in sandboxes
+          - in this case, it searched for specific software and hardware, to avoid detonating on unintended targets
 	- Wannacry.
+      - worm ransomware that spread via an SMB exploit
 	- CookieMiner.
+      - Cred stealer payload, used to steal banking and crypto creds from macs
+      - stole session cookies for websites associated to crypto, hence cookie miner
 	- Sunburst.
+      - backdoor
+      - supply chain attack
+      - waits days before communicating with C2 server
+      - used a DGA to determine where to beacon to
+      - mimics solarwinds with urls queried and 
+      - lateral moved via powershell remote task creation
+      - used a mix of encoded and junk data to throw off what secrets wer being exfiltrated
 
 - Malware features
-	- Various methods of getting remote code execution. 
+	- Various methods of getting remote code execution.
+      - exploits
+      - 
 	- Domain-flux.
 	- Fast-Flux.
 	- Covert C2 channels.
 	- Evasion techniques (e.g. anti-sandbox).
+      - disable security tooling
+      - masquerade as legitimate software
+      - check for specific aspects of machine to attempt to detect a sandbox
 	- Process hollowing. 
 	- Mutexes.
 	- Multi-vector and polymorphic attacks.
