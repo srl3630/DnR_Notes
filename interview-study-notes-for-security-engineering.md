@@ -15,8 +15,8 @@
 - [Detection](#detection)
 - [Digital Forensics](#digital-forensics)
 - [Incident Management](#incident-management)
-- [Coding & Algorithms](#coding--algorithms)
-- [Security Themed Coding Challenges](#security-themed-coding-challenges)
+- [Detection Pipeline](#detection-pipeline)
+- [Detection, Signature, and Threat Hunting Research](#detection-signature-and-threat-hunting-research)
 
 # Networking 
 
@@ -967,7 +967,7 @@ RRIEPPDCDLCEC2I
       - The sky is the limit
     - Does the IP in the alert have a bad reputation?
 
-# Detection/Signature/Threat Hunting Research
+# Detection, Signature, and Threat Hunting Research
 - Security feeds
   - Security News platforms ( Dark Reading, Krebs on security)
     - We prefer technical breakdowns, not overviews
