@@ -21,3 +21,6 @@ This repo focuses mostly on the content, but if you're looking for interview adv
 - [Digital Forensics](interview-study-notes-for-security-engineering.md#digital-forensics)
 - [Incident Management](interview-study-notes-for-security-engineering.md#incident-management)
 - [Coding & Algorithms](interview-study-notes-for-security-engineering.md#coding--algorithms)
+- [Detection Pipeline](interview-study-notes-for-security-engineering.md#detection-pipeline)
+- [Detection, Signature, and Threat Hunting Research](interview-study-notes-for-security-engineering.md#detection-signature-and-threat-hunting-research)
+
