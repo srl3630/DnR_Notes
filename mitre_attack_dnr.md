@@ -1,22 +1,5 @@
 # Common Attack Methods by Mitre Tactic and how to detect/prevent
 
-
-## Cloud ATT&CK & Detection
-    Reconnaissance
-        - Scans exploit scans against public facing infrastructure
-            - Implement signatures for high profile attacks
-    Resource Development
-    Initial Access
-    Execution
-    Persistence
-    Defense Evasion
-    Discovery
-    Lateral Movement
-    Collection
-    Command & Control
-    Exfiltration
-    Impact
-
 ## Endpoint ATT&CK & Detection
     #Note: Recon is a poor method of detection, but can be used for hardening environment
     Reconnaissance
@@ -117,6 +100,24 @@
         - DOS attack
             - Monitor services for uptime (also useful for software errors)
 
+//TODO
+## Cloud ATT&CK & Detection
+    Reconnaissance
+        - Scans exploit scans against public facing infrastructure
+            - Implement signatures for high profile attacks
+    Resource Development
+    Initial Access
+    Execution
+    Persistence
+    Defense Evasion
+    Discovery
+    Lateral Movement
+    Collection
+    Command & Control
+    Exfiltration
+    Impact
+
+//TODO
 ## SaaS ATT&CK & Detection
     Reconnaissance
     Resource Development
