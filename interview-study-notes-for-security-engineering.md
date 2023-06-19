@@ -15,8 +15,8 @@
 - [Detection](#detection)
 - [Digital Forensics](#digital-forensics)
 - [Incident Management](#incident-management)
-- [Coding & Algorithms](#coding--algorithms)
-- [Security Themed Coding Challenges](#security-themed-coding-challenges)
+- [Detection Pipeline](#detection-pipeline)
+- [Detection, Signature, and Threat Hunting Research](#detection-signature-and-threat-hunting-research)
 
 # Networking 
 
@@ -437,15 +437,24 @@
 	- Trusted Platform Module 
 		- (TPM)
 		- Trusted storage for certs and auth data locally on device/host.
+        - provides FDE (Full disk encryption) for securely booting into an operating system
+          - disallows tampering outside of the OS itself
 	- O-auth
 		- Bearer tokens, this can be stolen and used, just like cookies.
+        - Used to auth to a given sergice, has certain permissions
 	- Auth Cookies
 		- Client side.
+        - allows the user to have a token representing they have logged in without storing credentials
 	- Sessions 
 		- Server side.
+        - way for the server to associate requests with an authenticated user without having to submit credentials every time
 	- Auth systems 
 		- SAMLv2o.
+          - xml based auth protocol
+          - Identity providers provide SAML Assertions (digital passports) to allow access to service providers (apps)
 		- OpenID.
+          - decentralized auth protocol
+          - can choose a provider, and then authenticate to any site using openid
 		- Kerberos. 
 			- Gold & silver tickets.
               - Silver is local service tickets
@@ -523,34 +532,53 @@
 
 - Malware features
 	- Various methods of getting remote code execution.
-      - exploits
-      - code injection on site
-      - buffer overflow on site
-      - sql injection(xp_cmdshell)
+      - injection
+      - deserialization
+      - out of bounds write
 	- Domain-flux.
-      - use dga to avoid domain blocking, by swapping domains very fast
+      - when attackers frequently change domains, typically based on DGA
 	- Fast-Flux.
-      - swap ips very fast to avoid blocking
+      - When IP addresses are changed by an attacker frequently to avoid blockage
 	- Covert C2 channels.
-      - Steganography, Frequencies
+      - static noise (for airgaps)
+      - stegonography based C2 (downloading images and reading encoded data from them)
+      - dns a/txt records
 	- Evasion techniques (e.g. anti-sandbox).
       - disable security tooling
       - masquerade as legitimate software
       - check for specific aspects of machine to attempt to detect a sandbox
 	- Process hollowing. 
+      - suspend the process on startup and inject malicious code before resuming
+      - helps avoid detection, as code is injected into reputable process
 	- Mutexes.
+      - typically used for multithreading to avoid multiple processes accessing a resource
+      - can be used to make sure only one instance of malware is running at a given point in time
 	- Multi-vector and polymorphic attacks.
+      - MVA is when multiple different attack are used to gain access to an environment
+        - multi vector attacks can be used to have a higher chance of gaining access to the environment
+      - Polymorphic attacks
+        - when the signature of the malware/tactic/technique being used constantly changes to avoid detecton
 	- RAT (remote access trojan) features.
+      - download files
+      - upload files
+      - take screenshots
       - grab creds
-      - run remote commands
-      - take picture of screen
-      - rdp
+
 - Decompiling/ reversing 
 	- Obfuscation of code, unique strings (you can use for identifying code).
 	- IdaPro, Ghidra.
 
 - Static / dynamic analysis
 	- Describe the differences.
+      - static
+        - observes indicators of file itself
+          - hash
+          - digital signatures
+          - file headers
+          - file extension
+          - metadata
+      - dynamic
+        - observing how the malware behaves when run
 	- Virus total. 
 	- Reverse.it. 
 	- Hybrid Analysis.
@@ -582,6 +610,7 @@
 		- Find CVEs for any services running.
 		- Interception attacks.
 		- Getting unsecured info over the network.
+        - Set up Rogue AP
 
 - Exploit Kits and drive-by download attacks
 
@@ -608,6 +637,8 @@
 # Attack Structure
 
 Practice describing security concepts in the context of an attack. These categories are a rough guide on attack structure for a targeted attack. Non-targeted attacks tend to be a bit more "all-in-one".
+
+RRIEPPDCDLCEC2I
 
 - Reconnaissance
 	- OSINT, Google dorking, Shodan.
@@ -654,6 +685,7 @@ Practice describing security concepts in the context of an attack. These categor
 - Exfiltration
 	- Removable media/USB, Bluetooth exfil.
 	- C2 channels, DNS exfil, web services like code repos & Cloud backup storage.
+    - domain fronting
 	- Scheduled transfers.
 - Command and control
 	- Web service (dead drop resolvers, one-way/bi-directional traffic), encrypted channels.
@@ -668,7 +700,12 @@ Practice describing security concepts in the context of an attack. These categor
 # Threat Modeling
 
 - Threat Matrix
+  - way of determining which types of threats to prioritize/surface
 - Trust Boundries
+  - Who do we trust?
+    - Identity providers
+    - Hosts
+    - Network?
 - Security Controls
 - STRIDE framework
 	- **S**poofing
@@ -690,33 +727,88 @@ Practice describing security concepts in the context of an attack. These categor
 
 - SIEM
 	- Security Information and Event Management.
+    - Used as both a collector of logs, and way of querying/correlating logs to generate security signal
 
 - IOC 
 	- Indicator of compromise (often shared amongst orgs/groups).
 	- Specific details (e.g. IP addresses, hashes, domains)
+      - Very ephemeral, all of the above attributes can be changed very easily
 
 - Things that create signals
-	- Honeypots, snort.
+	- Honeypots
+    - snort
+    - EDR ( Crowdstrike, Carbon Black, Falco, Wazuh)
+    - Cloud Monitoring services ( GCP threat detection, AWS GuardDuty )
+    - Network monitors (Darktrace)
+    - Firewalls ( PAN NGFW )
+    - WAFs ( Signal Sciences)
+    - UEBA software ( Exabeam )
 
-- Things that triage signals
+- Ways to manage, track, and triage signals
 	- SIEM, eg splunk.
+    - Ticketing services (Jira, OPsgenie, Zendesk)
+    - MDR platforms ( Expel Workbench)
 
 - Things that will alert a human 
-	- Automatic triage of collated logs, machine learning.
+	- Alerts created in a ticketing system
+    - Pages
 	- Notifications and analyst fatigue.
-	- Systems that make it easy to decide if alert is actual hacks or not.
 
 - Signatures
 	- Host-based signatures
 		- Eg changes to the registry, files created or modified.
 		- Strings in found in malware samples appearing in binaries installed on hosts (/Antivirus).
 	- Network signatures
-		- Eg checking DNS records for attempts to contact C2 (command and control) servers. 
+		- Eg checking DNS records for attempts to contact C2 (command and control) servers.
+    - These types of detections are very ephemeral
+      - most of these attributes can be changed at will by an attacker
 
 - Anomaly / Behaviour based detection 
 	- IDS learns model of “normal” behaviour, then can detect things that deviate too far from normal - eg unusual urls being accessed, user specific- login times / usual work hours, normal files accessed.  
 	- Can also look for things that a hacker might specifically do (eg, HISTFILE commands, accessing /proc).
 	- If someone is inside the network- If action could be suspicious, increase log verbosity for that user.
+    - This type of detection ( behavaior based ) is the most resilient to change
+      - EX. it's easy to change the hash of a file/C2 Domain, it's much harder to change the functionality
+      - Means detections are more robust
+    - Behavior typically finds evil more consistently, but anomaly is more resistant to change tactics and techniques
+
+- Threat Hunting
+  - Process proactively looking for threats in an environment undetected by rules
+  - Need to be done retro-activelty by a human
+  - Typically has large amounts of results which need to be hand filtered by human
+    - Three methods
+      - IOC based hunt
+        - look for IOCs in environment
+      - Anomaly based hunt
+        - look for anomalous events in an environment
+      - Hypothesis driven hunt
+        - Start with a hypothesis (is there C2 beaconing from interpreters?) and look for evidence
+
+- Signature vs Anomaly vs Behavior vs Threat Hunting
+    - Highest fidelity ( in order top to bottom, this is a generalization )
+      - signature
+      - behavior
+      - anomaly
+      - threat hunting
+    - Highest resilience to new/changing techniques/tactics ( in order top to bottom, this is a generalization )
+      - anomaly
+      - threat hunting
+      - behavior
+      - signature
+    - Highest volume ( in order top to bottom, this is a generalization )
+      - threat hunting
+      - anomaly
+      - behavior
+      - signature
+    - Highest time investment (development, maintenance, and triage) ( in order top to bottom, this is a generalization )
+      - threat hunting
+      - signature
+      - anomaly
+      - behavior
+    - The above applies only if we're assuming the average case fior each
+      - one can make a bad version of any of these, causing excess alerting
+    - Behavioral is the strongest overall
+      - should be supplemented with anomaly and behavior for reliability of catching new/old attacks respectively
 
 - Firewall rules
 	- Brute force (trying to log in with a lot of failures).
@@ -726,6 +818,7 @@ Practice describing security concepts in the context of an attack. These categor
 
 - Honey pots
 	- Canary tokens.
+      - tokens placed on devices to look like real files, sends notification to server when triggered
 	- Dummy internal service / web server, can check traffic, see what attacker tries.
 
 - Things to know about attackers
@@ -829,45 +922,69 @@ Practice describing security concepts in the context of an attack. These categor
    	- Google's IMAG (Incident Management At Google)
 
 
-# Coding & Algorithms
+# Detection Pipeline
 
-- The basics
-	- Conditions (if, else).
-	- Loops (for loops, while loops).
- 	- Dictionaries.
- 	- Slices/lists/arrays.
- 	- String/array operations (split, contaings, length, regular expressions).
- 	- Pseudo code (concisely describing your approach to a problem).
+- Log ingestion
+  - Where are logs coming from?
+  - how are the logs being obtained
+    - collectors?
+    - what APIs do we need to hit to obtain those logs?
+- Log Storage
+  - Where are we putting those logs?
+    - Database? SIEM? A text file on a server (not recommended)?
+- Normalization
+  - What is our standard formatting for pieces of data
+    - IP-Address -> ip_address
+  - Why is normalization important
+    - helps us query data easily across technologies
+    - allows our automation to run smoothly on all devices
+    - provides consistency and crucial data for analysts to triage
+    - allows our detection rules to run consistently across technologies
+- Detection engine
+  - Do we want to build our own or use a third party?
+    - MDR/MSSP provider?
+    - Use a SIEM -> Ticketing System?
+    - Roll our own propietary pipeline?
+      - Will detections be codebased? Markdown?
+- Detection/Signatures
+  - IDS/IPS, Have security tech make signal for us, like XDR?
+  - Write our own SIEM queries or custom queries in security tech?
+- Suppressions
+  - Specific logic we put on top of a rule to reduce volume
+    - use specific indicators, like a process on a host, or parameters for a script that's commonly run in the environment
+    - If a suppresion is too broad, that means it likely should be written into detection logic
+- Enrichment
+  - The icing on the cake (delicious icing at that)
+  - SOAR Platforms
+  - Cloud functions
+  - Answers questions like...
+    - What does AV/Virustotal say about this host?
+    - What alerts fired from other vendors for this host/ip?
+    - What was the source process for this activity?
+    - What are search results for the hash like? (custom search for sandboxes?)
+    - How many connections were made to the IP address in the alert?
+    - And many, many more!
+      - The sky is the limit
+    - Does the IP in the alert have a bad reputation?
 
-- Data structures
-	- Dictionaries / hash tables (array of linked lists, or sometimes a BST).
-	- Arrays.
-	- Stacks.
-	- SQL/tables. 
-	- Bigtables.
-
-- Sorting
-	- Quicksort, merge sort.
-
-- Searching 
-	- Binary vs linear.
-
-- Big O 
-	- For space and time.
-
-- Regular expressions
-	- O(n), but O(n!) when matching.
-	- It's useful to be familiar with basic regex syntax, too.
-
-- Recursion 
-	- And why it is rarely used.
-
-- Python
-	- List comprehensions and generators [ x for x in range() ].
-	- Iterators and generators.
-	- Slicing [start:stop:step].
-	- Regular expressions.
-	- Types (dynamic types), data structures.
-	- Pros and cons of Python vs C, Java, etc.
-	- Understand common functions very well, be comfortable in the language.
-
+# Detection, Signature, and Threat Hunting Research
+- Security feeds
+  - Security News platforms ( Dark Reading, Krebs on security)
+    - We prefer technical breakdowns, not overviews
+      - overviews can be helpful to start looking into what to look into
+  - Red Teaming Blogs ( SpectreOps, Rhino Security labs, etc.)
+  - Blue Team Blogs (Crowdstrike, Darktrace, ..)
+    - security vendors do a pretty good job at this
+    - reversed malware breakdowns
+  - Threat intel feeds
+- Past incidents
+  - Detection & Response is an iterative process
+  - Review past incidents for IOCs + new behavioral rules to model into detection strategy
+  - Develop hunts to find similar activity in environment
+- Social Media
+  - high profile security personalities
+    - good way to find IOCs and reversing breakdowns
+    - news is often first broke on social media
+  - hacker groups
+    - *There may be ethical issues with this ( should you boost the social media reach of criminals? )*
+    - some hacker groups post their activities on social media
