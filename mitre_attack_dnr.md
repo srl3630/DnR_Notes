@@ -100,16 +100,40 @@
         - DOS attack
             - Monitor services for uptime (also useful for software errors)
 
-//TODO
 ## Cloud ATT&CK & Detection
-    Reconnaissance
-        - Scans exploit scans against public facing infrastructure
-            - Implement signatures for high profile attacks
-    Resource Development
     Initial Access
+        - Phishing (credential harvesting)
+            - detect on emails with malicious domains or with certain high risk keywords
+        - Compromise a web server
+            - Create detection to identify a web server process running a cmd interpreter or writing files
+        - Drive By Compromise
+            - Monitor browser file creations/behavior for unsual activity (spawning scriptings interpreters, writing DLLS unrelated to updates, etc...)
+        - Valid accounts
+            - Scan for credentials on the dark web/publicly available on public repos
     Execution
+        - Scripting interpreter ( on kube pod or instance)
+            - Alert on obfuscation/defense evasion techniques/ making network connections + creating files
+                - domain age for network connections can help refine detection
+        - Serverless execution
+            - Monitor for accounts that don't usually execute serverless functions
+            - Monitor for long lived serverless executions
+        - Cloud Admin Commands
+            - Monitor for LOLBINs being abused ( data plane logs )
     Persistence
+        - Create account
+            - Identify accounts with excessive permissions/account creation from suspicious IP
+        - Account manipulation
+            - Identify new credentials being set from a service account
+        -  Event Triggered Execution 
+            - Look for creation of crontabs on pods
+            - Look for new services being added to pods
     Defense Evasion
+        - Delete logs
+            - Identify mass log file deletion
+    Privilege Escalation
+        - Access instance metadata credentials
+            - Correlate curl and/or similar commands to grab information from instance metadata
+    // TODO
     Discovery
     Lateral Movement
     Collection
